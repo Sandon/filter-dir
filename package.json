@@ -1,0 +1,38 @@
+{
+  "name": "filter-dir",
+  "version": "1.0.0",
+  "description": "filter files and directories in a root directory according to glob patterns which is like those in .gitignore Edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel src/ -d dist; babel-node test/main.test.js",
+    "compile": "babel src/ -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sandon/filter-dir.git"
+  },
+  "keywords": [
+    "filter",
+    "ignore"
+  ],
+  "author": "Sandon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sandon/filter-dir/issues"
+  },
+  "homepage": "https://github.com/Sandon/filter-dir#readme",
+  "dependencies": {
+    "ignore": "^3.2.0",
+    "mz": "^2.6.0",
+    "fs-extra": "^0.30.0"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-3": "^6.11.0"
+  }
+}
