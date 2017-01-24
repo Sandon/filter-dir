@@ -1,6 +1,6 @@
 {
   "name": "filter-dir",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "filter files and directories in a root directory according to glob patterns which is like those in .gitignore Edit",
   "main": "index.js",
   "scripts": {
