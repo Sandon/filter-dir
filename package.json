@@ -1,8 +1,8 @@
 {
   "name": "filter-dir",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "filter files and directories in a root directory according to glob patterns which is like those in .gitignore Edit",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "babel src/ -d dist; babel-node test/main.test.js",
     "compile": "babel src/ -d dist",
