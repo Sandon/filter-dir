@@ -3,7 +3,6 @@
  */
 import ignore from 'ignore'
 import path from 'path'
-//import {remove} from '../util'
 import fs from 'mz/fs'
 import fse from 'fs-extra'
 
@@ -17,25 +16,26 @@ class FilterDir {
   add (rules) {
     if (Array.isArray(rules)) {
       this._rules = this._rules.concat(rules) // should copy one
-    } else if ('string' === typeof rules || rules instanceof String) {
+    } else if (typeof rules === 'string' || rules instanceof String) {
       this._rules.push(rules) // should copy one
     } else {
-      throw 'rules must be String or Array'
+      throw new Error('rules must be String or Array')
     }
   }
   async filter (dir) {
     this._ig = ignore().add(this._rules)
     return await this._filterDir(dir, '')
   }
-  async _filterDir(dirPath, unprefixedPath) {
+  async _filterDir (dirPath, unprefixedPath) {
     const self = this
-    
+
     const stat = await fs.stat(dirPath)
-    if (!stat.isDirectory())
+    if (!stat.isDirectory()) {
       return true
-    
+    }
+
     let files = await fs.readdir(dirPath)
-    
+
     const len = files.length
     for (let i = 0; i !== len; i++) {
       let item = files[i]
@@ -46,18 +46,19 @@ class FilterDir {
       if (this._ig.ignores(itemUnprefixedPath)) {
         await remove(itemDirPath)
       } else {
-        if(!await self._filterDir(itemDirPath, itemUnprefixedPath))
+        if (!await self._filterDir(itemDirPath, itemUnprefixedPath)) {
           return false
+        }
       }
     }
-    
+
     return true
   }
 }
 
 function remove (path) {
   return new Promise((resolve, reject) => {
-    fse.remove(path,  (err) => {
+    fse.remove(path, (err) => {
       if (err) {
         reject(err)
         return

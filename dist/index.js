@@ -8,8 +8,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Created by Sandon on 2017/1/22.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-//import {remove} from '../util'
-
 
 var _ignore = require('ignore');
 
@@ -50,10 +48,10 @@ var FilterDir = function () {
     value: function add(rules) {
       if (Array.isArray(rules)) {
         this._rules = this._rules.concat(rules); // should copy one
-      } else if ('string' === typeof rules || rules instanceof String) {
+      } else if (typeof rules === 'string' || rules instanceof String) {
         this._rules.push(rules); // should copy one
       } else {
-        throw 'rules must be String or Array';
+        throw new Error('rules must be String or Array');
       }
     }
   }, {
@@ -89,7 +87,7 @@ var FilterDir = function () {
     key: '_filterDir',
     value: function () {
       var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(dirPath, unprefixedPath) {
-        var self, stat, files, len, i, item, itemDirPath, itemUnprefixedPath, rmSucc;
+        var self, stat, files, len, i, item, itemDirPath, itemUnprefixedPath;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -114,21 +112,12 @@ var FilterDir = function () {
 
               case 8:
                 files = _context2.sent;
-
-                if (files) {
-                  _context2.next = 11;
-                  break;
-                }
-
-                return _context2.abrupt('return', false);
-
-              case 11:
                 len = files.length;
                 i = 0;
 
-              case 13:
+              case 11:
                 if (!(i !== len)) {
-                  _context2.next = 32;
+                  _context2.next = 29;
                   break;
                 }
 
@@ -136,8 +125,11 @@ var FilterDir = function () {
                 itemDirPath = _path2.default.join(dirPath, item);
                 itemUnprefixedPath = _path2.default.join(unprefixedPath, item);
 
+                console.log(itemUnprefixedPath);
+                console.log(this._ig.ignores(itemUnprefixedPath));
+
                 if (!this._ig.ignores(itemUnprefixedPath)) {
-                  _context2.next = 25;
+                  _context2.next = 22;
                   break;
                 }
 
@@ -145,40 +137,30 @@ var FilterDir = function () {
                 return remove(itemDirPath);
 
               case 20:
-                rmSucc = _context2.sent;
-
-                if (rmSucc) {
-                  _context2.next = 23;
-                  break;
-                }
-
-                return _context2.abrupt('return', false);
-
-              case 23:
-                _context2.next = 29;
+                _context2.next = 26;
                 break;
 
-              case 25:
-                _context2.next = 27;
+              case 22:
+                _context2.next = 24;
                 return self._filterDir(itemDirPath, itemUnprefixedPath);
 
-              case 27:
+              case 24:
                 if (_context2.sent) {
-                  _context2.next = 29;
+                  _context2.next = 26;
                   break;
                 }
 
                 return _context2.abrupt('return', false);
 
-              case 29:
+              case 26:
                 i++;
-                _context2.next = 13;
+                _context2.next = 11;
                 break;
 
-              case 32:
+              case 29:
                 return _context2.abrupt('return', true);
 
-              case 33:
+              case 30:
               case 'end':
                 return _context2.stop();
             }
