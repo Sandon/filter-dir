@@ -6,15 +6,17 @@ import path from 'path'
 
 import filterDir from '../dist/index'
 
-function testAdd() {
+/*
+function testAdd () {
   const dirFilter = filterDir()
-  dirFilter.add(['remove.js', 'remove-dir', 'remove-dir/**', 'remain-dir/**', '!remain-dir/remain.js'])
+  dirFilter.add(['remove.js', 'remove-dir', 'remove-dir/!**', 'remain-dir/!**', '!remain-dir/remain.js'])
   dirFilter.filter(path.join(__dirname, 'filtered-dir'))
 }
 
-//testAdd()
+testAdd()
+*/
 
-async function testAddIgnoreFile() {
+async function testAddIgnoreFile () {
   const dirFilter1 = filterDir()
   await dirFilter1.addIgnoreFile(path.join(__dirname, './.config'))
   dirFilter1.filter(path.join(__dirname, 'filtered-dir'))

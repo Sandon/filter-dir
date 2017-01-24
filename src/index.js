@@ -63,7 +63,7 @@ class FilterDir {
     if (!exists) {
       throw new Error(`${path} doesn't exist.`)
     }
-  
+
     const patterns = await fs.readFile(path, 'utf8')
     this._patterns = this._patterns.concat(patterns.split(/\n/g))
   }
