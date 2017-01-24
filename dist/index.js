@@ -39,19 +39,19 @@ var FilterDir = function () {
   function FilterDir() {
     _classCallCheck(this, FilterDir);
 
-    this._rules = [];
+    this._patterns = [];
     this._ig = null;
   }
 
   _createClass(FilterDir, [{
     key: 'add',
-    value: function add(rules) {
-      if (Array.isArray(rules)) {
-        this._rules = this._rules.concat(rules); // should copy one
-      } else if (typeof rules === 'string' || rules instanceof String) {
-        this._rules.push(rules); // should copy one
+    value: function add(patterns) {
+      if (Array.isArray(patterns)) {
+        this._patterns = this._patterns.concat(patterns);
+      } else if (typeof patterns === 'string' || patterns instanceof String) {
+        this._patterns.push(patterns);
       } else {
-        throw new Error('rules must be String or Array');
+        throw new Error('patterns must be String or Array');
       }
     }
   }, {
@@ -62,14 +62,15 @@ var FilterDir = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this._ig = (0, _ignore2.default)().add(this._rules);
-                _context.next = 3;
+                console.log(this._patterns);
+                this._ig = (0, _ignore2.default)().add(this._patterns);
+                _context.next = 4;
                 return this._filterDir(dir, '');
 
-              case 3:
+              case 4:
                 return _context.abrupt('return', _context.sent);
 
-              case 4:
+              case 5:
               case 'end':
                 return _context.stop();
             }
@@ -117,7 +118,7 @@ var FilterDir = function () {
 
               case 11:
                 if (!(i !== len)) {
-                  _context2.next = 29;
+                  _context2.next = 27;
                   break;
                 }
 
@@ -125,42 +126,39 @@ var FilterDir = function () {
                 itemDirPath = _path2.default.join(dirPath, item);
                 itemUnprefixedPath = _path2.default.join(unprefixedPath, item);
 
-                console.log(itemUnprefixedPath);
-                console.log(this._ig.ignores(itemUnprefixedPath));
-
                 if (!this._ig.ignores(itemUnprefixedPath)) {
-                  _context2.next = 22;
+                  _context2.next = 20;
                   break;
                 }
 
-                _context2.next = 20;
+                _context2.next = 18;
                 return remove(itemDirPath);
 
-              case 20:
-                _context2.next = 26;
+              case 18:
+                _context2.next = 24;
                 break;
 
-              case 22:
-                _context2.next = 24;
+              case 20:
+                _context2.next = 22;
                 return self._filterDir(itemDirPath, itemUnprefixedPath);
 
-              case 24:
+              case 22:
                 if (_context2.sent) {
-                  _context2.next = 26;
+                  _context2.next = 24;
                   break;
                 }
 
                 return _context2.abrupt('return', false);
 
-              case 26:
+              case 24:
                 i++;
                 _context2.next = 11;
                 break;
 
-              case 29:
+              case 27:
                 return _context2.abrupt('return', true);
 
-              case 30:
+              case 28:
               case 'end':
                 return _context2.stop();
             }
@@ -173,6 +171,56 @@ var FilterDir = function () {
       }
 
       return _filterDir;
+    }()
+  }, {
+    key: 'getPatterns',
+    value: function getPatterns() {
+      return this._patterns;
+    }
+  }, {
+    key: 'addIgnoreFile',
+    value: function () {
+      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(path) {
+        var exists, patterns;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _fs2.default.exists(path);
+
+              case 2:
+                exists = _context3.sent;
+
+                if (exists) {
+                  _context3.next = 5;
+                  break;
+                }
+
+                throw new Error(path + ' doesn\'t exist.');
+
+              case 5:
+                _context3.next = 7;
+                return _fs2.default.readFile(path, 'utf8');
+
+              case 7:
+                patterns = _context3.sent;
+
+                this._patterns = this._patterns.concat(patterns.split(/\n/g));
+
+              case 9:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function addIgnoreFile(_x4) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return addIgnoreFile;
     }()
   }]);
 

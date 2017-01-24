@@ -10,20 +10,21 @@ export default () => new FilterDir()
 
 class FilterDir {
   constructor () {
-    this._rules = []
+    this._patterns = []
     this._ig = null
   }
-  add (rules) {
-    if (Array.isArray(rules)) {
-      this._rules = this._rules.concat(rules) // should copy one
-    } else if (typeof rules === 'string' || rules instanceof String) {
-      this._rules.push(rules) // should copy one
+  add (patterns) {
+    if (Array.isArray(patterns)) {
+      this._patterns = this._patterns.concat(patterns)
+    } else if (typeof patterns === 'string' || patterns instanceof String) {
+      this._patterns.push(patterns)
     } else {
-      throw new Error('rules must be String or Array')
+      throw new Error('patterns must be String or Array')
     }
   }
   async filter (dir) {
-    this._ig = ignore().add(this._rules)
+    console.log(this._patterns)
+    this._ig = ignore().add(this._patterns)
     return await this._filterDir(dir, '')
   }
   async _filterDir (dirPath, unprefixedPath) {
@@ -41,8 +42,6 @@ class FilterDir {
       let item = files[i]
       let itemDirPath = path.join(dirPath, item)
       let itemUnprefixedPath = path.join(unprefixedPath, item)
-      console.log(itemUnprefixedPath)
-      console.log(this._ig.ignores(itemUnprefixedPath))
       if (this._ig.ignores(itemUnprefixedPath)) {
         await remove(itemDirPath)
       } else {
@@ -53,6 +52,20 @@ class FilterDir {
     }
 
     return true
+  }
+
+  getPatterns () {
+    return this._patterns
+  }
+
+  async addIgnoreFile (path) {
+    const exists = await fs.exists(path)
+    if (!exists) {
+      throw new Error(`${path} doesn't exist.`)
+    }
+  
+    const patterns = await fs.readFile(path, 'utf8')
+    this._patterns = this._patterns.concat(patterns.split(/\n/g))
   }
 }
 
