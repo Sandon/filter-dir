@@ -23,7 +23,6 @@ class FilterDir {
     }
   }
   async filter (dir) {
-    console.log(this._patterns)
     this._ig = ignore().add(this._patterns)
     return await this._filterDir(dir, '')
   }

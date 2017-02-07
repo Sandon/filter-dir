@@ -62,15 +62,14 @@ var FilterDir = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log(this._patterns);
                 this._ig = (0, _ignore2.default)().add(this._patterns);
-                _context.next = 4;
+                _context.next = 3;
                 return this._filterDir(dir, '');
 
-              case 4:
+              case 3:
                 return _context.abrupt('return', _context.sent);
 
-              case 5:
+              case 4:
               case 'end':
                 return _context.stop();
             }
