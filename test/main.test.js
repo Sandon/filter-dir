@@ -18,7 +18,7 @@ testAdd()
 
 async function testAddIgnoreFile () {
   const dirFilter1 = filterDir()
-  await dirFilter1.addIgnoreFile(path.join(__dirname, './.config'))
+  await dirFilter1.addIgnoreFile(path.join(__dirname, './.config-test-case2'))
   dirFilter1.filter(path.join(__dirname, 'filtered-dir'))
 }
 
